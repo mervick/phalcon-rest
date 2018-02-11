@@ -1,0 +1,39 @@
+.form-group .errors {
+  display: none; }
+
+.form-group.has-errors label {
+  color: #e74a25; }
+.form-group.has-errors .form-control {
+  color: #e74a25; }
+.form-group.has-errors .errors {
+  display: block;
+  color: #e74a25; }
+  .form-group.has-errors .errors p {
+    margin: 0; }
+
+label {
+  width: 100%; }
+
+.alert p {
+  margin: 0; }
+.alert.hidden {
+  display: none; }
+
+.alert-note {
+  float: right;
+  font-size: inherit; }
+
+.tooltip-inner {
+  white-space: pre;
+  max-width: none; }
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .col-lg-4 {
+    flex: 0 0 100%;
+    max-width: 50%; } }
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .col-lg-4 {
+    flex: 0 0 100%;
+    max-width: 40%; } }
+
+/*# sourceMappingURL=main.css.map */

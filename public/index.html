@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Phalcon REST test application</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700" rel="stylesheet">
+    <link href="/assets/node_modules/mdi/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="/assets/node_modules/toastr/build/toastr.css" rel="stylesheet"/>
+    <link href="/assets/css/style.css" rel="stylesheet"/>
+    <link href="/assets/css/main.css" rel="stylesheet"/>
+    <script src='https://www.google.com/recaptcha/api.js?onload=reCaptchaCallback' async defer>></script>
+</head>
+<body>
+
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper">
+        <div class="row">
+            <div id="content" class="content-wrapper full-page-wrapper d-flex align-items-center auth-pages">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="login-page" type="text/template">
+    <div class="card col-lg-4 mx-auto">
+        <div class="card-body px-5 py-5">
+            <h3 class="card-title text-left mb-3">Login</h3>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Username or email *</label>
+                    <input name="username" type="text" class="form-control p_input">
+                    <div class="errors" data-field="username"></div>
+                </div>
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input name="password" type="password" class="form-control p_input">
+                    <div class="errors" data-field="password"></div>
+                </div>
+                <div class="form-group">
+                    <label>ReCaptcha validation *</label>
+                    <div id="g-recaptcha-container"></div>
+                    <!--<div class="g-recaptcha" data-sitekey="6LetqEUUAAAAAKVr-36FxEcXy_Wng1ykig-kMyNo"></div>-->
+                    <div class="errors" data-field="g-recaptcha-response"></div>
+                </div>
+                <!--<div class="form-group d-flex align-items-center justify-content-between">-->
+                    <!--<a href="#" class="forgot-pass">Forgot password</a>-->
+                <!--</div>-->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-block enter-btn">Login</button>
+                </div>
+                <p class="sign-up">Don't have an Account? &nbsp;<a href="#register">Sign Up</a></p>
+            </form>
+        </div>
+    </div>
+</script>
+
+<script id="register-page" type="text/template">
+    <div class="card col-lg-4 mx-auto">
+        <div class="card-body px-5 py-5">
+            <h3 class="card-title text-left mb-3">Registration</h3>
+            <form id="register-form">
+                <div class="form-group">
+                    <label>Username *</label>
+                    <input name="name" type="text" class="form-control p_input">
+                    <div class="errors" data-field="name"></div>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input name="email" type="text" class="form-control p_input">
+                    <div class="errors" data-field="email"></div>
+                </div>
+                <div class="form-group">
+                    <label>Password *
+                        <a href="javascript:;" class="alert-notice">Notice!</a>
+                    </label>
+                    <div class="alert alert-info hidden" role="alert">
+                        <p><small>The password length must be greater than or equal to 8</small></p>
+                        <p><small>The password must contain one or more uppercase characters</small></p>
+                        <p><small>The password must contain one or more lowercase characters</small></p>
+                        <p><small>The password must contain one or more numeric values</small></p>
+                        <p><small>The password must contain one or more special characters</small></p>
+                    </div>
+                    <input name="password" type="password" class="form-control p_input">
+                    <div class="errors" data-field="password"></div>
+                </div>
+                <div class="form-group">
+                    <label>Password confirmation *</label>
+                    <input name="password_confirm" type="password" class="form-control p_input">
+                    <div class="errors" data-field="password_confirm"></div>
+                </div>
+                <div class="form-group">
+                    <label>Firstname</label>
+                    <input name="firstname" type="text" class="form-control p_input">
+                    <div class="errors" data-field="firstname"></div>
+                </div>
+                <div class="form-group">
+                    <label>Lastname</label>
+                    <input name="lastname" type="text" class="form-control p_input">
+                    <div class="errors" data-field="lastname"></div>
+                </div>
+                <div class="form-group">
+                    <label>ReCaptcha validation *</label>
+                    <div id="g-recaptcha-container"></div>
+                    <!--<div class="g-recaptcha" data-sitekey="6LetqEUUAAAAAKVr-36FxEcXy_Wng1ykig-kMyNo"></div>-->
+                    <div class="errors" data-field="g-recaptcha-response"></div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-block enter-btn">Registration</button>
+                </div>
+
+                <p class="sign-up text-center">Already have an Account? &nbsp;<a href="#login">Sign Up</a></p>
+                <p class="terms">By creating an account you are accepting our <a href="javascript:;">Terms &amp;
+                    Conditions</a></p>
+            </form>
+        </div>
+    </div>
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
+<script src="/assets/node_modules/toastr/build/toastr.min.js"></script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

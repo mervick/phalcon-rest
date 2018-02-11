@@ -1,0 +1,61 @@
+
+$danger : #e74a25;
+
+.form-group {
+    .errors {
+        display: none;
+    }
+}
+
+.form-group.has-errors {
+    label {
+        color: $danger;
+    }
+    .form-control {
+        color: $danger;
+    }
+    .errors {
+        display: block;
+        color: $danger;
+        p {
+            margin: 0;
+        }
+    }
+}
+
+label {
+    width: 100%;
+}
+
+.alert {
+    p {
+        margin: 0;
+    }
+    &.hidden {
+        display: none;
+    }
+}
+
+.alert-note {
+    float: right;
+    font-size: inherit;
+}
+
+.tooltip-inner {
+    white-space: pre;
+    max-width: none;
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .col-lg-4 {
+        flex: 0 0 100%;
+        max-width: 50%;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+    .col-lg-4 {
+        flex: 0 0 100%;
+        max-width: 40%;
+    }
+}
