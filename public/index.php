@@ -11,8 +11,6 @@ if (function_exists('xdebug_disable')) {
 require __DIR__ . '/../app/bootstrap.php';
 $config = require APP_DIR . '/config/config.php';
 
-$db = Phalcon\Di::getDefault()->get('db');
-
 try {
 
     $app = new \Phalcon\Mvc\Application();
