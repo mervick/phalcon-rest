@@ -35,6 +35,7 @@
 
     /**
      * Local storage
+     * @type {{parse, get, set, remove}}
      */
     var Storage = (function () {
         var self = {
@@ -47,6 +48,11 @@
         if (self.enabled) {
             var storage = win['localStorage'];
             $.extend(self, {
+                /**
+                 * Parse data from value, supports arrays, objects, numbers and strings
+                 * @param value
+                 * @returns {Array|Object|Number|String*}
+                 */
                 parse: function (value) {
                     if (typeof value != 'string') {
                         return undefined;
@@ -58,6 +64,13 @@
                         return value || undefined;
                     }
                 },
+
+                /**
+                 * Set value int storage
+                 * @param {*} key
+                 * @param {*} val
+                 * @returns {*}
+                 */
                 'set': function (key, val) {
                     if (val === undefined) {
                         return self.remove(key);
@@ -65,28 +78,24 @@
                     storage.setItem(key, JSON.stringify(val));
                     return val;
                 },
+
+                /**
+                 * Get value from storage
+                 * @param {*} key
+                 * @param {*} [defaultVal]
+                 * @returns {*}
+                 */
                 'get': function (key, defaultVal) {
                     var val = self.parse(storage.getItem(key));
                     return (val === undefined ? defaultVal : val);
                 },
+
+                /**
+                 * Remove data from storage by key
+                 * @param {*} key
+                 */
                 remove: function (key) {
                     storage.removeItem(key);
-                },
-                clear: function () {
-                    storage.clear();
-                },
-                forEach: function (callback) {
-                    for (var i = 0; i < storage.length; i++) {
-                        var key = storage.key(i);
-                        callback(key, self.get(key));
-                    }
-                },
-                getAll: function () {
-                    var ret = {};
-                    self.forEach(function (key, val) {
-                        ret[key] = val;
-                    })
-                    return ret;
                 }
             });
 
@@ -118,10 +127,14 @@
             loaded = false;
 
         var render = function() {
+            // Avoid error for empty container
             if (!loaded || !$('#' + container)[0]) return;
+
+            // Recreate container for create new reCaptcha
             var el = $("#" + container).html("");
             $("<div/>").insertAfter(el).attr("id", container);
             el.remove();
+
             reCaptchaID = window.grecaptcha.render(container, {
                 'sitekey': sitekey,
             });
@@ -224,7 +237,7 @@
                 else if (data.message) {
                     toastr.error(data.message);
 
-                    // Highlights fields errros
+                    // Highlights fields errors
                     if (data.errors) {
                         // var errorsAreas = $form.find('.errors');
                         $.each(data.errors, function (name, errors) {
@@ -361,7 +374,6 @@
          * @returns {*}
          */
         index: function(args, next) {
-            // console.log({'Authorization' :user.getAuthorizationHeader()})
             var url = this.url() + '/index/index',
                 options = {
                     url: url,
@@ -399,7 +411,6 @@
         initialize: function() {
             var token = Storage.get('access_token');
             if (token) {
-                // console.log(this.access_token)
                 this.access_token = token;
                 this.logged = true;
                 router.navigate('index', { trigger: true });
@@ -482,8 +493,10 @@
          */
         login: function(data, next) {
             var self = this;
+            // Avoid bug with multiple sending request
             if (this.loading) return;
             this.loading = true;
+
             var url = this.url() + '/auth/login',
                 options = {
                     url: url,
@@ -550,9 +563,6 @@
     var router = new Router;
 
     router.on('route:defaultRoute', function(action) {
-
-        // if (this.loading) return;
-        // this.loading = true;
 
         if (user.isLogged()) {
             if (action == 'logout') {

@@ -112,10 +112,3 @@ $eventsManager = $di->get('eventsManager');
 $eventListener = new EventListener();
 // Listen router events from events manager for run ACL access checks
 $eventsManager->attach('router', $eventListener, 100);
-
-
-// Set dispatcher eventsManager
-///** @var Dispatcher $dispatcher */
-//$dispatcher = $di->get('dispatcher');
-//$dispatcher->setEventsManager($eventsManager);
-//$dispatcher->setDefaultNamespace($config->application->defaultNamespace);

@@ -48,7 +48,7 @@ class OAuth2Storage extends PdoStorage
         $token = AccessToken::findFirst((new AccessTokenQuery())->token($access_token)->getParams());
         if ($token) {
             $token = $token->toArray();
-            // Convert date string back to timestamp
+            // Convert date string back to timestamp (Avoid known bug in the OAuth2 library)
             $token['expires'] = strtotime($token['expires']);
         }
 
@@ -66,7 +66,7 @@ class OAuth2Storage extends PdoStorage
      */
     public function setAccessToken($access_token, $client_id = null, $user_id = null, $expires = null, $scope = null)
     {
-        // Convert expires to date string
+        // Convert expires to date string (Avoid known bug in the OAuth2 library)
         $expires = date('Y-m-d H:i:s', $expires ?: time() + $this->lifetime);
 
         /** @var AccessToken $token */
@@ -77,16 +77,11 @@ class OAuth2Storage extends PdoStorage
             $token = new AccessToken();
         }
 
-        // Save
+        // Save access token
         $token->access_token = $access_token;
         $token->client_id = $client_id;
         $token->user_id = $user_id;
         $token->expires = $expires;
-//        $token->expires = strtotime($expires);
-
-//        if (!$token->save()) {
-//            throw new \Exception($token->getMessages()[0]->getMessage());
-//        }
 
         return $token->save();
     }

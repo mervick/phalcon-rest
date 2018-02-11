@@ -28,13 +28,6 @@ return [
                 'deny' => [ACL_USER],
             ],
         ],
-        'forgot' => [
-            'POST' => [
-                'action' => 'forgotPassword',
-                'allow' => [ACL_GUEST],
-                'deny' => [ACL_USER],
-            ],
-        ],
         'logout' => [
             'POST' => [
                 'action' => 'logout',
@@ -42,5 +35,12 @@ return [
                 'deny' => [ACL_GUEST],
             ],
         ],
+//        'forgot' => [
+//            'POST' => [
+//                'action' => 'forgotPassword',
+//                'allow' => [ACL_GUEST],
+//                'deny' => [ACL_USER],
+//            ],
+//        ],
     ],
 ];

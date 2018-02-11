@@ -20,8 +20,6 @@ class FactoryDefault extends Di
 
         $this->_services = [
             'acl'=>                new Service('acl', 'app\\services\\Acl', true),
-//            'session'=>            new Service('session', 'app\\services\\OAuth2Session', true),
-//            'router'=>             new Service('router', 'app\\services\\Router', true),
             'eventListener'=>      new Service('eventListener', 'app\\plugins\\EventListener', true),
             'dispatcher'=>         new Service('dispatcher', 'Phalcon\\Mvc\\Dispatcher', true),
             'url'=>                new Service('url', 'Phalcon\\Mvc\\Url', true),

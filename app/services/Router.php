@@ -3,7 +3,6 @@
 namespace app\services;
 
 use Phalcon\Di;
-use Phalcon\Mvc\Router\Route;
 
 /**
  * Class Router
@@ -20,7 +19,6 @@ class Router extends \Phalcon\Mvc\Router
         /** @var Config|\stdClass $config */
         $config = Di::getDefault()->get('config');
         $defaultNS = $config->application->defaultNamespace;
-//        $defaultAction = $config->application->defaultAction;
         $routes = $config->routes->toArray();
 
         /** @var Acl $acl */
@@ -62,13 +60,5 @@ class Router extends \Phalcon\Mvc\Router
                 }
             }
         }
-
-//        // Mount default action
-//        /** @var Route $route */
-//        $route = $this->getRouteByName($defaultAction);
-//        if (!$route) {
-//            throw new \Exception('Invalid default action');
-//        }
-//        $this->add('/', $route->getPaths(), $route->getHttpMethods());
     }
 }

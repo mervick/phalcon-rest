@@ -26,10 +26,6 @@ return new Phalcon\Config([
         'charset' => 'utf8mb4'
     ],
 
-//    'oauth2' => [
-//        'client_id' => 'test',
-//    ],
-
     'security' => [
         'passwordAlgo' => PASSWORD_DEFAULT,
         'passwordCost' => 10,

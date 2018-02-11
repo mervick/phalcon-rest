@@ -48,13 +48,6 @@ class User extends Model
     public $pass;
 
     /**
-     * Initialize user
-     */
-    public function initialize()
-    {
-    }
-
-    /**
      * Define user table source
      * @return string
      */
