@@ -486,10 +486,6 @@
          */
         login: function(data, next) {
             var self = this;
-            // Avoid bug with multiple sending request
-            if (this.loading) return;
-            this.loading = true;
-
             var url = this.url() + '/auth/login',
                 options = {
                     url: url,
@@ -502,11 +498,9 @@
                             self.logged = true;
                             next && next();
                         }
-                        this.loading = false;
                     },
                     error: function() {
                         checkResponse();
-                        this.loading = false;
                     }
                 };
 
