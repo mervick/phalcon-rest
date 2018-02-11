@@ -11,5 +11,5 @@ define('ACL_USER', 'user');
 define('ACL_GUEST', 'guest');
 
 // set debug on development environment
-//define('DEBUG', true) or
+define('DEBUG', true) or
 define('DEBUG', false);
