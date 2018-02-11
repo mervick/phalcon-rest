@@ -1,7 +1,3 @@
--- Author Andrey Izman <izmanw@gmail.com>
--- License LGPL2
-
-
 -- OAuth2 token table (required by OAuth2 library)
 CREATE TABLE `oauth2_access_token` (
   `access_token` char(40) NOT NULL COMMENT 'Then access token',

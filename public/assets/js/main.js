@@ -1,10 +1,3 @@
-/**
- *
- * @author      {@link https://socialveo.com Socialveo}
- * @copyright   Copyright (C) 2018 Socialveo Sagl - All Rights Reserved
- * @license     Proprietary Software Socialveo (C) 2018, Socialveo Sagl {@link https://socialveo.com/legal Socialveo Legal Policies}
- */
-
 ;(function($, Backbone, toastr, win, undefined) {
     'use strict';
 

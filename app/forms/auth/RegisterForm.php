@@ -92,7 +92,6 @@ class RegisterForm extends Form
     }
 
     /**
-     * Save changes of form in case if all is fine.
      * Register new user
      * @return User|mixed|null
      * @throws \Exception
@@ -105,8 +104,7 @@ class RegisterForm extends Form
         // Create new user
         $user = new User();
 
-        // Get user model properties
-        // Get model fields from model metadata
+        // Get model fields from the model metadata
         /** @var MetaDataInterface $modelsMetadata */
         $modelsMetadata = Di::getDefault()->get('modelsMetadata');
         $fields = $modelsMetadata->getDataTypes($user);

@@ -1,7 +1,7 @@
 <?php
 
-error_reporting(E_ALL ^ E_DEPRECATED);
-ini_set('display_errors', 'On');
+//error_reporting(E_ALL ^ E_DEPRECATED);
+//ini_set('display_errors', 'On');
 
 // Disable xdebug extension for avoid format output
 if (function_exists('xdebug_disable')) {
@@ -10,8 +10,6 @@ if (function_exists('xdebug_disable')) {
 
 require __DIR__ . '/../app/bootstrap.php';
 $config = require APP_DIR . '/config/config.php';
-
-$db = Phalcon\Di::getDefault()->get('db');
 
 try {
 
