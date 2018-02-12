@@ -2,6 +2,7 @@
 
 namespace app\services;
 
+use Phalcon\Config;
 use Phalcon\Di;
 
 /**

@@ -13,8 +13,8 @@ use Phalcon\Config;
 use Phalcon\Db\Adapter as PdoAdapter;
 use Phalcon\Loader;
 use Phalcon\Mvc\Dispatcher;
-use Phalcon\Mvc\Model\Manager;
-use Phalcon\Mvc\Model\ManagerInterface;
+use Phalcon\Events\Manager;
+use Phalcon\Events\ManagerInterface;
 
 
 /** @var Config|\stdClass $config */

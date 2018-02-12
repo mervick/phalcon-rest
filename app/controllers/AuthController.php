@@ -10,7 +10,6 @@ use app\models\AccessTokenQuery;
 use app\services\OAuth2Session;
 use OAuth2\Server as OAuth2Server;
 use OAuth2\Request as OAuth2Request;
-use OAuth2\Response as OAuth2Response;
 use Phalcon\Di;
 use Phalcon\Forms\Element;
 use Phalcon\Mvc\Url;

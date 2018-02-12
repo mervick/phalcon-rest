@@ -2,6 +2,7 @@
 
 namespace app\forms\base;
 
+use Phalcon\Forms\Element;
 use Phalcon\Mvc\Model\Message;
 
 /**

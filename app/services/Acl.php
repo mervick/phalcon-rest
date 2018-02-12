@@ -140,7 +140,7 @@ class Acl
      */
     public function isAllowed($resource, $actions)
     {
-        /** @var Session $session */
+        /** @var OAuth2Session $session */
         $session = Di::getDefault()->get('session');
         $roles = $session->getUserRoles();
 
