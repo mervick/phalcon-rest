@@ -512,8 +512,8 @@
                             next && next();
                         }
                     },
-                    error: function() {
-                        checkResponse();
+                    error: function(xhr) {
+                        checkResponse(xhr);
                     }
                 };
 
@@ -537,6 +537,7 @@
                     success: function (res) {
                         checkResponse(res);
                         app.models.user.revokeAccess();
+                        next && next();
                     },
                     error: function (xhr) {
                         checkResponse(xhr);
