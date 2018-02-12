@@ -11,11 +11,6 @@ return new Phalcon\Config([
         'defaultAction' => 'GET auth.login',
     ],
 
-    'oauth' => [
-        'user_table' => 'user',
-        'user_table' => 'user',
-    ],
-
     'database' => [
         'adapter' => 'Mysql',
         'host' => '127.0.0.1',
