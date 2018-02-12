@@ -113,12 +113,4 @@ class AuthController extends RestController
             'message' => 'You was successfully logged out',
         ];
     }
-
-    /**
-     * Register endpoint
-     * Type POST
-     */
-    public function forgotPasswordAction()
-    {
-    }
 }
