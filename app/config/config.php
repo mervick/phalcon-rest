@@ -29,6 +29,7 @@ return new Phalcon\Config([
     'security' => [
         'passwordAlgo' => PASSWORD_DEFAULT,
         'passwordCost' => 10,
+        'passwordSalt' => '`{]Y3z9;jYi',
         'passwordRegex' => '/(?=^.{8,}$)(?=.*\d)(?=.*[!@#\$%\^&\*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/',
         'recaptcha' => [
             'publicKey' => '6LetqEUUAAAAAKVr-36FxEcXy_Wng1ykig-kMyNo',

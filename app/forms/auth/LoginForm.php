@@ -4,6 +4,7 @@ namespace app\forms\auth;
 
 use app\forms\base\Form;
 use app\forms\validation\ReCaptcha;
+use app\helpers\Security;
 use app\models\User;
 use app\models\UserQuery;
 use Phalcon\Di;
@@ -60,6 +61,6 @@ class LoginForm extends Form
         }
 
         // Verify password
-        return $user && password_verify($password, $user->pass);
+        return $user && Security::verifyPassword($password, $user->pass);
     }
 }

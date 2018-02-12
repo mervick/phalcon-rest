@@ -2,6 +2,7 @@
 
 namespace app\services;
 
+use app\helpers\Security;
 use app\models\AccessToken;
 use app\models\AccessTokenQuery;
 use app\models\User;
@@ -140,6 +141,6 @@ class OAuth2Storage extends PdoStorage
      */
     protected function checkPassword($user, $password)
     {
-        return password_verify($password, is_object($user) ? $user->pass : $user['pass']);
+        return Security::verifyPassword($password, $user['pass']);
     }
 }
