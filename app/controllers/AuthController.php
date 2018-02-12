@@ -66,7 +66,7 @@ class AuthController extends RestController
         $this->response->setStatusCode(400);
         return array_merge([
             'status' => 'error',
-            'message' => 'Your form has validation errors',
+            'message' => 'The form has validation errors',
             'errors' => $form->getErrorsCollection(),
         ]);
     }
@@ -109,7 +109,8 @@ class AuthController extends RestController
         $accessToken = AccessToken::findFirst((new AccessTokenQuery())->token($token['access_token'])->getParams());
         $accessToken && $accessToken->delete();
         return [
-            'status' => 'OK'
+            'status' => 'OK',
+            'message' => 'You was successfully logged out',
         ];
     }
 
