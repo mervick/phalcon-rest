@@ -93,7 +93,7 @@ class AuthController extends RestController
         $this->response->setStatusCode(400);
         return array_merge([
             'status' => 'error',
-            'message' => 'Your form has validation errors',
+            'message' => 'The form has validation errors',
             'errors' => $form->getErrorsCollection(),
         ]);
     }
