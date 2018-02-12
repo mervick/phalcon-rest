@@ -3,18 +3,18 @@
 
     // Init toastr options
     toastr.options = {
-        "progressBar": false,
-        "positionClass": "toast-top-center",
-        "preventDuplicates": true,
+        'progressBar': false,
+        'positionClass': 'toast-top-center',
+        'preventDuplicates': true
     };
 
     // Init slide up/down alert notice
-    $(document).on("click", '.alert-notice', function() {
+    $(document).on('click', '.alert-notice', function() {
         var self = $(this),
-            group = self.closest(".form-group"),
-            alert = group.find(".alert");
+            group = self.closest('.form-group'),
+            alert = group.find('.alert');
 
-        if (alert.is(":hidden")) {
+        if (alert.is(':hidden')) {
             alert.slideDown();
         } else {
             alert.slideUp();
@@ -22,8 +22,8 @@
     });
 
     // Clear validations when value was changed
-    $(document).on("change", '.has-errors input', function() {
-        $(this).closest(".has-errors").removeClass("has-errors");
+    $(document).on('change', '.has-errors input', function() {
+        $(this).closest('.has-errors').removeClass('has-errors');
     });
 
     /**
@@ -32,11 +32,11 @@
      */
     var Storage = (function () {
         var self = {
-                enabled: function() {
-                    try { return ('localStorage' in win && win['localStorage']) }
-                    catch(err) { return false }
-                } ()
-            };
+            enabled: function() {
+                try { return ('localStorage' in win && win['localStorage']) }
+                catch(err) { return false }
+            } ()
+        };
 
         if (self.enabled) {
             var storage = win['localStorage'];
@@ -44,7 +44,7 @@
                 /**
                  * Parse data from value, supports arrays, objects, numbers and strings
                  * @param value
-                 * @returns {Array|Object|Number|String*}
+                 * @returns {Array|Object|Number|String|*}
                  */
                 parse: function (value) {
                     if (typeof value != 'string') {
@@ -93,7 +93,7 @@
             });
 
             try {
-                var testKey = '__STORAGE__'
+                var testKey = '__STORAGE__';
                 self.set(testKey, testKey);
                 if (self.get(testKey) != testKey) {
                     self.enabled = false;
@@ -119,41 +119,40 @@
             reCaptchaID = null,
             loaded = false;
 
-        var render = function() {
-            // Avoid error for empty container
-            if (!loaded || !$('#' + container)[0]) return;
-
-            // Recreate container for create new reCaptcha
-            var el = $("#" + container).html("");
-            $("<div/>").insertAfter(el).attr("id", container);
-            el.remove();
-
-            reCaptchaID = window.grecaptcha.render(container, {
-                'sitekey': sitekey,
-            });
-            return reCaptchaID;
-        };
-
         window.reCaptchaCallback = function() {
             loaded = true;
-            render();
+            reCaptcha.render();
         };
 
         return {
             /**
              * Render reCaptcha
              */
-            render: render,
+            render: function() {
+                var el;
+                // Avoid error for empty container
+                if (!loaded || !((el = $('#' + container))[0])) return;
+
+                // Recreate container for create new reCaptcha
+                $('<div/>').insertAfter(el.html('')).attr('id', container);
+                el.remove();
+
+                reCaptchaID = win['grecaptcha'].render(container, {
+                    'sitekey': sitekey
+                });
+                return reCaptchaID;
+            },
 
             /**
              * Check whether reCaptcha passed validation
              * @returns {boolean}
              */
             check: function() {
-                if (!loaded || !window.grecaptcha || reCaptchaID === null) {
+                if (!loaded || !win['grecaptcha'] || reCaptchaID === null) {
                     return false;
                 }
-                var response = grecaptcha.getResponse(reCaptchaID);
+                /** @typedef {{getResponse}} win['grecaptcha'] */
+                var response = win['grecaptcha'].getResponse(reCaptchaID);
 
                 if (response.length == 0) {
                     validation.show($('#content'), field, [
@@ -169,6 +168,10 @@
         };
     }) ();
 
+    /**
+     * Validation helper
+     * @type {{show, hide}}
+     */
     var validation = {};
 
     /**
@@ -179,27 +182,27 @@
      */
     validation.show = function(parent, name, errors) {
         if (errors && errors.length) {
-            var container = parent.find(".errors").filter('[data-field=' + name + ']').html("");
+            var container = parent.find('.errors').filter('[data-field=' + name + ']').html('');
             $.each(errors, function (i, error) {
                 container.append(
                     '<p><small>' + error + '</small></p>'
                 );
             });
-            container.closest(".form-group").addClass("has-errors");
+            container.closest('.form-group').addClass('has-errors');
         }
     };
 
     /**
      * Hide validation errors under the field
-     * @param {jQuery} form
+     * @param {jQuery} parent
      * @param {String} [name]
      */
     validation.hide = function(parent, name) {
         if (name) {
-            parent.find(".errors").filter('[data-field=' + name + ']').html("")
-                .closest(".has-errors").removeClass("has-errors");
+            parent.find('.errors').filter('[data-field=' + name + ']').html('')
+                .closest('.has-errors').removeClass('has-errors');
         } else {
-            parent.find(".has-errors").removeClass("has-errors");
+            parent.find('.has-errors').removeClass('has-errors');
         }
     };
 
@@ -211,7 +214,7 @@
      */
     var checkResponse = (function() {
         var handle = function(data) {
-            var $form = $("#content").find('form');
+            var $form = $('#content').find('form');
 
             if ($form && $form[0]) {
                 reCaptcha.render();
@@ -230,7 +233,7 @@
                 else if (data.message) {
                     toastr.error(data.message);
 
-                    // Highlights fields errors
+                    // Show validation errors for fields
                     if (data.errors) {
                         // var errorsAreas = $form.find('.errors');
                         $.each(data.errors, function (name, errors) {
@@ -244,13 +247,18 @@
             return null;
         };
 
-        // Parse response
+        /**
+         * Parse response
+         * @param {Object|XMLHttpRequest} data
+         * @returns {Object|*}
+         */
         return function(data) {
             if (data) {
+                /** @typedef {{responseJSON, abort}} data */
                 // Get response from XHR object
                 if (data.responseJSON && data.abort && typeof data.abort === 'function') {
-                    if (data.status = 401 && user.isLogged()) {
-                        user.revokeAccess();
+                    if (data.status = 401 && app.models.user.isLogged()) {
+                        app.models.user.revokeAccess();
                     }
                     return handle(data.responseJSON);
                 } else {
@@ -264,13 +272,24 @@
         };
     }) ();
 
-    var views = {};
+    /**
+     * Application
+     */
+    var app = {
+        proto: {
+            models: {},
+            views: {}
+        },
+        models: {},
+        views: {}
+    };
 
     /**
      * Define login form
      * @type {Backbone.View|*}
      */
-    views.LoginForm = Backbone.View.extend({
+    app.proto.views.LoginForm = Backbone.View.extend({
+
         el: '#content',
         template: '#login-page',
 
@@ -281,7 +300,7 @@
         },
 
         events: {
-            'submit #login-form': 'submit',
+            'submit #login-form': 'submit'
         },
 
         submit: function (e) {
@@ -289,8 +308,8 @@
 
             if (reCaptcha.check()) {
                 var data = $(e.currentTarget).serialize();
-                user.login(data, function() {
-                    router.navigate('index', { trigger: true });
+                app.models.user.login(data, function() {
+                    app.router.navigate('index', { trigger: true });
                 });
             }
         }
@@ -300,7 +319,8 @@
      * Define registration form
      * @type {Backbone.View|*}
      */
-    views.RegisterForm = Backbone.View.extend({
+    app.proto.views.RegisterForm = Backbone.View.extend({
+
         el: '#content',
         template: '#register-page',
 
@@ -319,8 +339,8 @@
 
             if (reCaptcha.check()) {
                 var data = $(e.currentTarget).serialize();
-                user.register(data, function() {
-                    router.navigate('login', { trigger: true });
+                app.models.user.register(data, function() {
+                    app.router.navigate('login', { trigger: true });
                 });
             }
         }
@@ -330,14 +350,15 @@
      * Define index view
      * @type {Backbone.View|*}
      */
-    views.IndexView = Backbone.View.extend({
+    app.proto.views.IndexView = Backbone.View.extend({
+
         el: '#content',
         content: null,
 
         render: function () {
             var self = this;
             $(self.el).html('');
-            content.index(null, function(res) {
+            app.models.content.index(null, function(res) {
                 $(self.el).html(res['content']);
             });
             return this;
@@ -348,9 +369,9 @@
      * Content model
      * @type {Backbone.Model|*}
      */
-    var Content = Backbone.Model.extend({
+    app.proto.models.Content = Backbone.Model.extend({
 
-        urlRoot: "",
+        urlRoot: '',
 
         /**
          * Returns base url
@@ -372,7 +393,7 @@
                     url: url,
                     type: 'GET',
                     headers: {
-                        'Authorization': user.getAuthorizationHeader()
+                        'Authorization': app.models.user.getAuthorizationHeader()
                     },
                     success: function (res) {
                         res = checkResponse(res);
@@ -380,20 +401,20 @@
                     },
                     error: function (xhr) {
                         checkResponse(xhr);
-                    },
+                    }
                 };
 
             return (this.sync || Backbone.sync).call(this, null, this, options);
-        },
+        }
     });
 
     /**
      * User model
      * @type {Backbone.Model|*}
      */
-    var User = Backbone.Model.extend({
+    app.proto.models.User = Backbone.Model.extend({
 
-        urlRoot: "",
+        urlRoot: '',
         data: null,
         access_token: null,
         logged: false,
@@ -406,7 +427,7 @@
             if (token) {
                 this.access_token = token;
                 this.logged = true;
-                router.navigate('index', { trigger: true });
+                app.router.navigate('index', { trigger: true });
             }
         },
 
@@ -434,15 +455,7 @@
             this.data = null;
             this.access_token = null;
             this.logged = false;
-            router.navigate('login', { trigger: true });
-        },
-
-        /**
-         * Get user fields
-         * @returns {null}
-         */
-        getUserData: function () {
-            return this.data;
+            app.router.navigate('login', { trigger: true });
         },
 
         /**
@@ -472,7 +485,7 @@
                     },
                     error: function (xhr) {
                         checkResponse(xhr);
-                    },
+                    }
                 };
 
             return (this.sync || Backbone.sync).call(this, null, this, options);
@@ -519,16 +532,16 @@
                     url: url,
                     type: 'POST',
                     headers: {
-                        'Authorization': user.getAuthorizationHeader()
+                        'Authorization': app.models.user.getAuthorizationHeader()
                     },
                     success: function (res) {
                         checkResponse(res);
-                        user.revokeAccess();
+                        app.models.user.revokeAccess();
                     },
                     error: function (xhr) {
                         checkResponse(xhr);
-                        user.revokeAccess();
-                    },
+                        app.models.user.revokeAccess();
+                    }
                 };
 
             return (this.sync || Backbone.sync).call(this, null, this, options);
@@ -539,7 +552,7 @@
      * Router
      * @type {Backbone.Router|*}
      */
-    var Router = Backbone.Router.extend({
+    app.proto.Router = Backbone.Router.extend({
         loading: false,
         routes: {
             '*actions': 'defaultRoute'
@@ -547,45 +560,50 @@
     });
 
     // Initialize the router
-    var router = new Router;
+    app.router = new app.proto.Router();
 
-    router.on('route:defaultRoute', function(action) {
+    // Attach router handler
+    app.router.on('route:defaultRoute', function(action) {
 
-        if (user.isLogged()) {
+        if (app.models.user.isLogged()) {
             if (action == 'logout') {
-                user.logout();
+                app.models.user.logout();
             }
             // else if (action == 'index') {
-            //     var view = new views.IndexView();
-            //     view.render();
+            //     app.views.indexView.render();
             // }
             else {
-                router.navigate('index'/*, { trigger: true }*/);
-                var view = new views.IndexView();
-                view.render();
+                app.router.navigate('index'/*, { trigger: true }*/);
+                app.views.indexView.render();
             }
         } else {
             if (action == 'register') {
-                var view = new views.RegisterForm();
-                view.render();
+                app.views.registerForm.render();
             }
             // else if (action == 'login') {
-            //     var view = new views.LoginForm();
-            //     view.render();
+            //     app.views.loginForm.render();
             // }
             else {
-                router.navigate('login'/*, { trigger: true }*/);
-                var view = new views.LoginForm();
-                view.render();
+                app.router.navigate('login'/*, { trigger: true }*/);
+                app.views.loginForm.render();
             }
         }
     });
 
     // Initialize user model
-    var user = new User();
+    app.models.user = new app.proto.models.User();
 
     // Initialize content model
-    var content = new Content();
+    app.models.content = new app.proto.models.Content();
+
+    // Initialize login form view
+    app.views.loginForm = new app.proto.views.LoginForm();
+
+    // Initialize register form view
+    app.views.registerForm = new app.proto.views.RegisterForm();
+
+    // Initialize index page view
+    app.views.indexView = new app.proto.views.IndexView();
 
     // Start Backbone history
     Backbone.history.start();
