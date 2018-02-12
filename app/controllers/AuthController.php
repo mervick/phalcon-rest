@@ -38,12 +38,13 @@ class AuthController extends RestController
         if ($form->isValid($this->request->getPost())) {
             if ($user = $form->login()) {
 
-                $_POST['grant_type'] = 'password';
-                $_POST['client_id'] = 'test';
+                $POST = array_merge($_POST, [
+                    'grant_type' => 'password',
+                    'client_id' => 'test',
+                ]);
 
-                $response = new OAuth2Response();
-                $params = $this->oauth2server->handleTokenRequest(OAuth2Request::createFromGlobals(),
-                    $response)->getParameters();
+                $request = new OAuth2Request([], $POST, [], [], [], $_SERVER);
+                $params = $this->oauth2server->handleTokenRequest($request)->getParameters();
 
                 if (!$params || !isset($params['access_token'])) {
                     throw new HttpException('Internal Server Error', 500);
@@ -52,7 +53,7 @@ class AuthController extends RestController
                 return [
                     'status' => 'OK',
                     'message' => 'You was successfully logged in',
-                    'access_token' => $params,
+                    'access_token' => array_intersect_key($params, array_flip(['token_type', 'access_token'])),
                 ];
             } else {
                 return [
