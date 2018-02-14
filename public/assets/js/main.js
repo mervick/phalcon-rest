@@ -257,7 +257,7 @@
                 /** @typedef {{responseJSON, abort}} data */
                 // Get response from XHR object
                 if (data.responseJSON && data.abort && typeof data.abort === 'function') {
-                    if (data.status = 401 && app.models.user.isLogged()) {
+                    if (data.status == 401 && app.models.user.isLogged()) {
                         app.models.user.revokeAccess();
                     }
                     return handle(data.responseJSON);
