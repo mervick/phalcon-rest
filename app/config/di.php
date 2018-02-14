@@ -51,8 +51,6 @@ $di->set('router', function() use ($di) {
 
 // Open database connection
 $di->set('db', function () use ($config) {
-    echo '';
-    echo '';
     return new Mysql([
         'host' => $config->database->host,
         'port' => $config->database->port,
